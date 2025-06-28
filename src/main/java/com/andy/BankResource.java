@@ -7,6 +7,10 @@ import java.sql.SQLException;
 
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 
 @Path("/bank")
@@ -21,21 +25,21 @@ public class BankResource {
      * @param account
      */
     @POST
-    public void createAccount(EntityAccount account) {
-        // Here you would typically save the account to the database
-        String insertSQL = "INSERT INTO bank_accounts (balance, first_name, last_name) VALUES (" +
-                           account.getBalance() + ", '" +
-                           account.getFirstName() + "', '" +
-                           account.getLastName() + "')";
-        
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createAccount(EntityAccount account) {
+        String insertSQL = "INSERT INTO bank_accounts (balance, first_name, last_name) VALUES (?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(insertSQL)) {
-            statement.executeUpdate(insertSQL);
+                PreparedStatement statement = connection.prepareStatement(insertSQL)) {
+            statement.setDouble(1, account.getBalance());
+            statement.setString(2, account.getFirstName());
+            statement.setString(3, account.getLastName());
+            statement.executeUpdate();
             System.out.println("Account created: " + account.getFirstName() + " " + account.getLastName() + ", Balance: " + account.getBalance());
+            return Response.status(Response.Status.CREATED).entity(account).build();
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle exception, e.g., return an error response
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
     }
-    
 }

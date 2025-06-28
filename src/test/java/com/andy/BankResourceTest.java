@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
-
 /**
  * I will follow the principles of Test-Driven Development by writing tests first
  * for the account creation endpoint. This test will ensure that the endpoint behaves

@@ -21,13 +21,6 @@ public class EntityAccount {
     public EntityAccount() {
     }
 
-    public EntityAccount(int accountNumber, Double balance, String firstName, String lastName) {
-        this.accountNumber = accountNumber;
-        this.balance = balance;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
     public int getAccountNumber() {
         return accountNumber;
     }
