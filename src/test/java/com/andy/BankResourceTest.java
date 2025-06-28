@@ -17,12 +17,6 @@ import java.sql.Statement;
  * I will follow the principles of Test-Driven Development by writing tests first
  * for the account creation endpoint. This test will ensure that the endpoint behaves
  * as expected.
- * One big issue in my attempt to perform TDD is the fact that test cases are
- * not independent from each other. The database is not reset between tests.
- * For now, I have to accept this, but I truly wish I knew a way to reset the database
- * for each test.
- * If I knew how to access the database directly, I could drop the table
- * and recreate it before each test. But I do not know how to do that.
  */
 
 @QuarkusTest
