@@ -74,19 +74,31 @@ public class BankResource {
     @PATCH
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response depositMoney(EntityAccount account) {
+    public Response depositMoney(DepositRequest request) {
         String updateSQL = "UPDATE EntityAccount SET balance = balance + ? WHERE accountNumber = ?";
-        try (Connection connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
-                PreparedStatement statement = connection.prepareStatement(updateSQL)) {
-            statement.setDouble(1, account.getBalance());
-            statement.setInt(2, account.getAccountNumber());
-            int rowsUpdated = statement.executeUpdate();
+        String selectSQL = "SELECT * FROM EntityAccount WHERE accountNumber = ?";
+            try (Connection connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+                PreparedStatement updateStmt = connection.prepareStatement(updateSQL);
+                PreparedStatement selectStmt = connection.prepareStatement(selectSQL)) {
+
+            updateStmt.setDouble(1, request.getAmount());
+            updateStmt.setInt(2, request.getAccountNumber());
+            int rowsUpdated = updateStmt.executeUpdate();
+
             if (rowsUpdated > 0) {
-                System.out.println("Deposit successful for account number: " + account.getAccountNumber());
-                return Response.ok(account).build();
-            } else {
-                return Response.status(Response.Status.NOT_FOUND).build();
+                // Fetch updated account
+                selectStmt.setInt(1, request.getAccountNumber());
+                var resultSet = selectStmt.executeQuery();
+                if (resultSet.next()) {
+                    EntityAccount account = new EntityAccount();
+                    account.setAccountNumber(resultSet.getInt("accountNumber"));
+                    account.setBalance(resultSet.getDouble("balance"));
+                    account.setFirstName(resultSet.getString("firstName"));
+                    account.setLastName(resultSet.getString("lastName"));
+                    return Response.ok(account).build();
+                }
             }
+            return Response.status(Response.Status.NOT_FOUND).build();
         } catch (SQLException e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();

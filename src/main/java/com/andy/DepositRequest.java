@@ -5,4 +5,12 @@ package com.andy;
  * @param accountNumber the account number to deposit money into
  * @param amount the amount of money to deposit
  */
-public record DepositRequest(int accountNumber, double amount) {}
+public record DepositRequest(int accountNumber, double amount) {
+    public double getAmount() {
+        return amount;
+    }
+
+    public int getAccountNumber() {
+        return accountNumber;
+    }
+}
