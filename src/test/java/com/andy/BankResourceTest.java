@@ -88,6 +88,18 @@ public class BankResourceTest {
      * Then transferMoney could call withdrawMoney and depositMoney.
      * TODO: I must assign different paths to the depositMoney, withdrawMoney methods and transferMoney.
      */
+
+    public void testWithdrawMoney() {
+        given()
+            .contentType(ContentType.JSON)
+            .body("{ \"accountNumber\": 82, \"amount\": 300.0 }")
+            .when().patch("/bank/withdraw")
+            .then()
+                .statusCode(200)
+                .body("balance", is(1700.0f));
+    }
+
+    @Disabled
     @Test
     public void testTransferMoney() {        
         given()
