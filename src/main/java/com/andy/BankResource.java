@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.PATCH;
@@ -48,7 +49,7 @@ public class BankResource {
 
     @GET
     @Path("/{accountNumber}")
-    public Response getAccount(int accountNumber) {
+    public Response getAccount(@PathParam("accountNumber") int accountNumber) {
         String selectSQL = "SELECT * FROM EntityAccount WHERE accountNumber = ?";
         try (Connection connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
                 PreparedStatement statement = connection.prepareStatement(selectSQL)) {
