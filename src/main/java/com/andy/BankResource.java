@@ -89,13 +89,13 @@ public class BankResource {
                 PreparedStatement updateStmt = connection.prepareStatement(updateSQL);
                 PreparedStatement selectStmt = connection.prepareStatement(selectSQL)) {
 
-            updateStmt.setDouble(1, request.getAmount());
-            updateStmt.setInt(2, request.getAccountNumber());
+            updateStmt.setDouble(1, request.amount());
+            updateStmt.setInt(2, request.accountNumber());
             int rowsUpdated = updateStmt.executeUpdate();
 
             if (rowsUpdated > 0) {
                 // Fetch updated account
-                selectStmt.setInt(1, request.getAccountNumber());
+                selectStmt.setInt(1, request.accountNumber());
                 var resultSet = selectStmt.executeQuery();
                 if (resultSet.next()) {
                     EntityAccount account = new EntityAccount();
@@ -120,7 +120,7 @@ public class BankResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response withdrawMoney(BalanceChangeRequest request) {
         // Reuse depositMoney method with negative amount
-        BalanceChangeRequest newRequest = new BalanceChangeRequest(request.getAccountNumber(), -request.getAmount());
+        BalanceChangeRequest newRequest = new BalanceChangeRequest(request.accountNumber(), -request.amount());
         return depositMoney(newRequest);
     }
 

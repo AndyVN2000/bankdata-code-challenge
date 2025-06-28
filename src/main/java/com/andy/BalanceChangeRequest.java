@@ -6,11 +6,4 @@ package com.andy;
  * @param amount the amount of money to change by. Positive for deposit, negative for withdrawal.
  */
 public record BalanceChangeRequest(int accountNumber, double amount) {
-    public double getAmount() {
-        return amount;
-    }
-
-    public int getAccountNumber() {
-        return accountNumber;
-    }
 }
