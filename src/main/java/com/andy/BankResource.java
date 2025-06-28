@@ -16,7 +16,7 @@ import jakarta.ws.rs.core.Response;
 @Path("/bank")
 public class BankResource {
 
-    private static final String JDBC_URL = "jdbc:h2:file:./data/mydb";
+    private static final String JDBC_URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
     private static final String USER = "sa";
     private static final String PASSWORD = "sa";
 
