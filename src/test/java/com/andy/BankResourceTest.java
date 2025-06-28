@@ -34,6 +34,9 @@ public class BankResourceTest {
             stmt.executeUpdate("INSERT INTO EntityAccount " +
                 "(accountNumber, balance, firstName, lastName)" +
                 " VALUES (82, 2000, 'Jane', 'Doe')");
+            stmt.executeUpdate("INSERT INTO EntityAccount " +
+                "(accountNumber, balance, firstName, lastName)" +
+                " VALUES (777, 700, 'Mary', 'Sue')");
         }
     }
 
@@ -58,21 +61,21 @@ public class BankResourceTest {
             .body(newAccount)
             .when().post("/bank")
             .then()
-                .statusCode(201) // Assuming 201 Created is the expected response for a successful POST
+                .statusCode(201)
                 .body("firstName", is("John"))
                 .body("lastName", is("Doe"))
-                .body("balance", is(1000.0f)); // Using float to match the JSON representation
+                .body("balance", is(1000.0f));
     }
 
     @Test
     public void testDepositMoney() {
         given()
             .contentType(ContentType.JSON)
-            .body("{ \"accountNumber\": 82, \"amount\": 500.0 }") // Assuming a deposit endpoint accepts account number and amount
+            .body("{ \"accountNumber\": 82, \"amount\": 500.0 }")
             .when().patch("/bank")
             .then()
-                .statusCode(200) // Assuming 200 OK is the expected response for a successful deposit
-                .body("balance", is(2500.0f)); // Check if the balance is updated correctly after deposit
+                .statusCode(200)
+                .body("balance", is(2500.0f));
     }
     
     /**
@@ -84,37 +87,16 @@ public class BankResourceTest {
      * with a negative amount.
      * Then transferMoney could call withdrawMoney and depositMoney.
      * TODO: I must assign different paths to the depositMoney, withdrawMoney methods and transferMoney.
-     * TODO: Another problem is how I correctly write my test case for this. I have observed
-     *  that the database is not reset between tests, so I can reuse the John Doe account.
      */
-    @Disabled
     @Test
-    public void testTransferMoney() {
-        String newAccount = """
-                {
-                    "accountNumber": 82,
-                    "balance": 200.0,
-                    "firstName": "Mary",
-                    "lastName": "Sue"
-                }
-                """;
+    public void testTransferMoney() {        
         given()
             .contentType(ContentType.JSON)
-            .body(newAccount)
-            .when().post("/bank")
-            .then()
-                .statusCode(201)
-                .body("firstName", is("Mary"))
-                .body("lastName", is("Sue"))
-                .body("balance", is(200.0f));
-        
-        given()
-            .contentType(ContentType.JSON)
-            .body("{ \"fromAccount\": 41, \"toAccount\": 82, \"amount\": 300.0 }")
+            .body("{ \"fromAccount\": 82, \"toAccount\": 777, \"amount\": 300.0 }")
             .when().patch("/bank/transfer")
             .then()
-                .statusCode(200) // Assuming 200 OK is the expected response for a successful transfer
-                .body("fromAccount.balance", is(1200.0f)) // Check if the balance of the sender account is updated correctly after transfer
-                .body("toAccount.balance", is(500.0f)); // Check if the balance of the receiver account is updated correctly after transfer
+                .statusCode(200)
+                .body("fromAccount.balance", is(1700.0f))
+                .body("toAccount.balance", is(1000.0f));
     }
 }
