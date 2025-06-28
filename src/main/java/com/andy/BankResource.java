@@ -28,7 +28,7 @@ public class BankResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createAccount(EntityAccount account) {
-        String insertSQL = "INSERT INTO EntityAccount (balance, first_name, last_name) VALUES (?, ?, ?)";
+        String insertSQL = "INSERT INTO EntityAccount (balance, firstName, lastName) VALUES (?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
                 PreparedStatement statement = connection.prepareStatement(insertSQL)) {
             statement.setDouble(1, account.getBalance());
