@@ -123,4 +123,24 @@ public class BankResource {
         BalanceChangeRequest newRequest = new BalanceChangeRequest(request.getAccountNumber(), -request.getAmount());
         return depositMoney(newRequest);
     }
+
+    @PATCH
+    @Path("/transfer")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response transferMoney(TransferRequest request) {
+        int fromAccount = request.getFromAccount();
+        int toAccount = request.getToAccount();
+        double amount = request.getAmount();
+        // Withdraw from source account
+        BalanceChangeRequest withdrawRequest = new BalanceChangeRequest(fromAccount, amount);
+        Response withdrawResponse = withdrawMoney(withdrawRequest);
+        if (withdrawResponse.getStatus() != Response.Status.OK.getStatusCode()) {
+            return withdrawResponse; // Return error if withdrawal failed
+        }
+
+        // Deposit into destination account
+        BalanceChangeRequest depositRequest = new BalanceChangeRequest(toAccount, request.getAmount());
+        return depositMoney(depositRequest);
+    }
 }
