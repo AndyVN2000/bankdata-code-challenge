@@ -63,9 +63,27 @@ public class BankResourceTest {
      * with a negative amount.
      * Then transferMoney could call withdrawMoney and depositMoney.
      * TODO: I must assign different paths to the depositMoney, withdrawMoney methods and transferMoney.
+     * TODO: Another problem is how I correctly write my test case for this. I have observed
+     *  that the database is not reset between tests, so I can reuse the John Doe account.
      */
     @Test
     public void testTransferMoney() {
-
+        String newAccount = """
+                {
+                    "accountNumber": 82,
+                    "balance": 200.0,
+                    "firstName": "Mary",
+                    "lastName": "Sue"
+                }
+                """;
+        given()
+            .contentType(ContentType.JSON)
+            .body(newAccount)
+            .when().post("/bank")
+            .then()
+                .statusCode(201)
+                .body("firstName", is("Mary"))
+                .body("lastName", is("Sue"))
+                .body("balance", is(200.0f));
     }
 }
