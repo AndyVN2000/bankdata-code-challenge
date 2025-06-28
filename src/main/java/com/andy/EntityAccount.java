@@ -6,7 +6,6 @@ package com.andy;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
 
 @Entity
 public class EntityAccount {
