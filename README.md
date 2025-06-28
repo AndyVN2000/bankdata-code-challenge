@@ -1,3 +1,20 @@
+# To start application and hitting endpoints
+
+To start the application, run in shell:
+```shell script
+./gradlew quarkusDev
+```
+
+Then to create an account with `accountNumber=1`, `balance=123.0`, `firstName="foo"`, `lastName="bar"`.
+
+Run the following in bash:
+```bash script
+curl -X POST http://localhost:8080/bank -H "Content-Type: application/json" -d "{\"accountNumber\":1,\"balance\":123.0,\"firstName\":\"foo\",\"lastName\":\"bar\"}"
+```
+
+
+
+
 # bankdata-code-challenge
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.

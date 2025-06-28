@@ -25,7 +25,7 @@ public class BankResourceTest {
     public void testCreateAccount() {
         String newAccount = """
                 {
-                    "accountNumber": 42,
+                    "accountNumber": 41,
                     "balance": 1000.0,
                     "firstName": "John",
                     "lastName": "Doe"
