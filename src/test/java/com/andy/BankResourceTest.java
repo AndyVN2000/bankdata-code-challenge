@@ -54,4 +54,18 @@ public class BankResourceTest {
                 .body("balance", is(1500.0f)); // Check if the balance is updated correctly after deposit
     }
     
+    /**
+     * My initial thoughts before writing test and implementation:
+     * This looks like a good opportunity to reuse the depositMoney method.
+     * I wonder if it is possible to define a transferMoney method that reuses
+     * the depositMoney method.
+     * First, define a withdrawMoney method. It could just call the depositMoney method
+     * with a negative amount.
+     * Then transferMoney could call withdrawMoney and depositMoney.
+     * TODO: I must assign different paths to the depositMoney, withdrawMoney methods and transferMoney.
+     */
+    @Test
+    public void testTransferMoney() {
+
+    }
 }
