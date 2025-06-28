@@ -28,12 +28,13 @@ public class BankResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createAccount(EntityAccount account) {
-        String insertSQL = "INSERT INTO EntityAccount (balance, firstName, lastName) VALUES (?, ?, ?)";
+        String insertSQL = "INSERT INTO EntityAccount (accountNumber, balance, firstName, lastName) VALUES (?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
                 PreparedStatement statement = connection.prepareStatement(insertSQL)) {
-            statement.setDouble(1, account.getBalance());
-            statement.setString(2, account.getFirstName());
-            statement.setString(3, account.getLastName());
+            statement.setInt(1, account.getAccountNumber());
+            statement.setDouble(2, account.getBalance());
+            statement.setString(3, account.getFirstName());
+            statement.setString(4, account.getLastName());
             statement.executeUpdate();
             System.out.println("Account created: " + account.getFirstName() + " " + account.getLastName() + ", Balance: " + account.getBalance());
             return Response.status(Response.Status.CREATED).entity(account).build();
