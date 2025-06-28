@@ -15,7 +15,6 @@ dependencies {
     implementation 'io.quarkus:quarkus-resteasy-jackson' // For JSON support
     implementation 'io.quarkus:quarkus-hibernate-orm'
     
-    implementation 'io.quarkus:quarkus-rest'
     implementation 'io.quarkus:quarkus-jdbc-h2'
     implementation 'io.quarkus:quarkus-hibernate-orm-panache'
     implementation 'io.quarkus:quarkus-arc'
