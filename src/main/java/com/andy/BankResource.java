@@ -82,7 +82,7 @@ public class BankResource {
     @Path("/deposit")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response depositMoney(DepositRequest request) {
+    public Response depositMoney(BalanceChangeRequest request) {
         String updateSQL = "UPDATE EntityAccount SET balance = balance + ? WHERE accountNumber = ?";
         String selectSQL = "SELECT * FROM EntityAccount WHERE accountNumber = ?";
             try (Connection connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
@@ -103,7 +103,6 @@ public class BankResource {
                     account.setBalance(resultSet.getDouble("balance"));
                     account.setFirstName(resultSet.getString("firstName"));
                     account.setLastName(resultSet.getString("lastName"));
-                    System.out.println("Deposit successful");
                     System.out.println("Updated account: " + account.getFirstName() + " " + account.getLastName() + ", New Balance: " + account.getBalance());
                     return Response.ok(account).build();
                 }
@@ -113,5 +112,15 @@ public class BankResource {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @PATCH
+    @Path("/withdraw")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response withdrawMoney(BalanceChangeRequest request) {
+        // Reuse depositMoney method with negative amount
+        BalanceChangeRequest newRequest = new BalanceChangeRequest(request.getAccountNumber(), -request.getAmount());
+        return depositMoney(newRequest);
     }
 }
