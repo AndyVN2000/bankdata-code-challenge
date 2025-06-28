@@ -79,6 +79,7 @@ public class BankResource {
      * @return
      */
     @PATCH
+    @Path("/deposit")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response depositMoney(DepositRequest request) {

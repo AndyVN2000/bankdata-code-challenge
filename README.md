@@ -12,7 +12,7 @@ curl -X POST http://localhost:8080/bank -H "Content-Type: application/json" -d "
 
 To deposit money to the account with `accountNumber=1` by the amount `amount=200.0`, run the following in bash:
 ```bash script
-curl -X PATCH http://localhost:8080/bank -H "Content-Type: application/
+curl -X PATCH http://localhost:8080/bank/deposit -H "Content-Type: application/
 json" -d "{\"accountNumber\":1,\"amount\":200.0}"
 ```
 

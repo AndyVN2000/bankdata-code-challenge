@@ -72,7 +72,7 @@ public class BankResourceTest {
         given()
             .contentType(ContentType.JSON)
             .body("{ \"accountNumber\": 82, \"amount\": 500.0 }")
-            .when().patch("/bank")
+            .when().patch("/bank/deposit")
             .then()
                 .statusCode(200)
                 .body("balance", is(2500.0f));
