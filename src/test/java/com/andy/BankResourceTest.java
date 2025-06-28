@@ -42,5 +42,16 @@ public class BankResourceTest {
                 .body("lastName", is("Doe"))
                 .body("balance", is(1000.0f)); // Using float to match the JSON representation
     }
+
+    @Test
+    public void testDepositMoney() {
+        given()
+            .contentType(ContentType.JSON)
+            .body("{ \"accountNumber\": 41, \"amount\": 500.0 }") // Assuming a deposit endpoint accepts account number and amount
+            .when().patch("/bank")
+            .then()
+                .statusCode(200) // Assuming 200 OK is the expected response for a successful deposit
+                .body("balance", is(1500.0f)); // Check if the balance is updated correctly after deposit
+    }
     
 }
