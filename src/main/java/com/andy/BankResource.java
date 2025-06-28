@@ -71,6 +71,13 @@ public class BankResource {
         }
     }
 
+    /**
+     * There were other possible REST methods such as PUT or POST, but I 
+     * think that PATCH was more semantically fitting, given that we partially
+     * update the account balance.
+     * @param request
+     * @return
+     */
     @PATCH
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
