@@ -12,7 +12,6 @@ import jakarta.persistence.GeneratedValue;
 public class EntityAccount {
 
     @Id
-    @GeneratedValue
     private int accountNumber;
     private Double balance;
     private String firstName;
