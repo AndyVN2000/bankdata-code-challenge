@@ -95,6 +95,8 @@ public class BankResource {
                     account.setBalance(resultSet.getDouble("balance"));
                     account.setFirstName(resultSet.getString("firstName"));
                     account.setLastName(resultSet.getString("lastName"));
+                    System.out.println("Deposit successful");
+                    System.out.println("Updated account: " + account.getFirstName() + " " + account.getLastName() + ", New Balance: " + account.getBalance());
                     return Response.ok(account).build();
                 }
             }

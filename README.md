@@ -5,14 +5,16 @@ To start the application, run in shell:
 ./gradlew quarkusDev
 ```
 
-Then to create an account with `accountNumber=1`, `balance=123.0`, `firstName="foo"`, `lastName="bar"`.
-
-Run the following in bash:
+Then to create an account with `accountNumber=1`, `balance=123.0`, `firstName="foo"`, `lastName="bar"`, run the following in bash:
 ```bash script
 curl -X POST http://localhost:8080/bank -H "Content-Type: application/json" -d "{\"accountNumber\":1,\"balance\":123.0,\"firstName\":\"foo\",\"lastName\":\"bar\"}"
 ```
 
-
+To deposit money to the account with `accountNumber=1` by the amount `amount=200.0`, run the following in bash:
+```bash script
+curl -X PATCH http://localhost:8080/bank -H "Content-Type: application/
+json" -d "{\"accountNumber\":1,\"amount\":200.0}"
+```
 
 
 # bankdata-code-challenge
