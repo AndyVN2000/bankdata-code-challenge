@@ -11,6 +11,12 @@ import static org.hamcrest.CoreMatchers.is;
  * I will follow the principles of Test-Driven Development by writing tests first
  * for the account creation endpoint. This test will ensure that the endpoint behaves
  * as expected.
+ * One big issue in my attempt to perform TDD is the fact that test cases are
+ * not independent from each other. The database is not reset between tests.
+ * For now, I have to accept this, but I truly wish I knew a way to reset the database
+ * for each test.
+ * If I knew how to access the database directly, I could drop the table
+ * and recreate it before each test. But I do not know how to do that.
  */
 
 @QuarkusTest
@@ -85,5 +91,14 @@ public class BankResourceTest {
                 .body("firstName", is("Mary"))
                 .body("lastName", is("Sue"))
                 .body("balance", is(200.0f));
+        
+        given()
+            .contentType(ContentType.JSON)
+            .body("{ \"fromAccount\": 41, \"toAccount\": 82, \"amount\": 300.0 }")
+            .when().patch("/bank/transfer")
+            .then()
+                .statusCode(200) // Assuming 200 OK is the expected response for a successful transfer
+                .body("fromAccount.balance", is(1200.0f)) // Check if the balance of the sender account is updated correctly after transfer
+                .body("toAccount.balance", is(500.0f)); // Check if the balance of the receiver account is updated correctly after transfer
     }
 }
