@@ -16,6 +16,16 @@ curl -X PATCH http://localhost:8080/bank/deposit -H "Content-Type: application/
 json" -d "{\"accountNumber\":1,\"amount\":200.0}"
 ```
 
+Now to test the transfer of money between accounts. Create a second account:
+```bash script
+curl -X POST http://localhost:8080/bank -H "Content-Type: application/json" -d "{\"accountNumber\":2,\"balance\":456.0,\"firstName\":\"John\",\"lastName\":\"Doe\"}"
+```
+
+Then to hit the endpoint for transferring money from `foo bar` to `John Doe` with 100 DKK.
+```bash script
+curl -X PATCH http://localhost:8080/bank/transfer -H "Content-Type: application/json -d" "{\"fromAccount\":1, \"toAccount\":2, \"amount\":100.0}"
+```
+
 
 # bankdata-code-challenge
 

@@ -99,7 +99,6 @@ public class BankResourceTest {
                 .body("balance", is(1700.0f));
     }
 
-    @Disabled
     @Test
     public void testTransferMoney() {        
         given()
@@ -107,8 +106,20 @@ public class BankResourceTest {
             .body("{ \"fromAccount\": 82, \"toAccount\": 777, \"amount\": 300.0 }")
             .when().patch("/bank/transfer")
             .then()
-                .statusCode(200)
-                .body("fromAccount.balance", is(1700.0f))
-                .body("toAccount.balance", is(1000.0f));
+                .statusCode(200);
+        
+        given()
+            .contentType(ContentType.JSON)
+            .body("{ \"accountNumber\": 82 }")
+            .when().get("/bank/82")
+            .then()
+                .body("balance", is(1700.0f));
+        
+        given()
+            .contentType(ContentType.JSON)
+            .body("{ \"accountNumber\": 777 }")
+            .when().get("/bank/777")
+            .then()
+                .body("balance", is(1000.0f));
     }
 }
