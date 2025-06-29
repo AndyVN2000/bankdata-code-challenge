@@ -86,7 +86,6 @@ public class BankResourceTest {
      * First, define a withdrawMoney method. It could just call the depositMoney method
      * with a negative amount.
      * Then transferMoney could call withdrawMoney and depositMoney.
-     * TODO: I must assign different paths to the depositMoney, withdrawMoney methods and transferMoney.
      */
 
     public void testWithdrawMoney() {
