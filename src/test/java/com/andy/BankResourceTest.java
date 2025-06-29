@@ -121,4 +121,18 @@ public class BankResourceTest {
             .then()
                 .body("balance", is(1000.0f));
     }
+
+    /**
+     * I have a new dilemma, now that my next step is to implement the operation
+     * of getting the balance of an account.
+     * I have two options: 
+     * - Reuse my existing GET method that retrieves the account,
+     *   which was created as a side-effect of me wanting to implement the operation
+     *   of depositing money.
+     * - Create a new endpoint for getting the balance of an account.
+     * My personal preference is to reuse the existing GET method.
+     * This is because I was taught the principle of reusability.
+     * So my idea is to create a new endpoint that calls getAccount and then extracts
+     * the balance from the returned account object, which will be returned.
+     */
 }
