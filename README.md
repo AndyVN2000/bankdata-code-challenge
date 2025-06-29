@@ -22,7 +22,7 @@ curl -X POST http://localhost:8080/bank -H "Content-Type: application/json" -d "
 
 Then to hit the endpoint for transferring money from `foo bar` to `John Doe` with 100 DKK.
 ```bash script
-curl -X PATCH http://localhost:8080/bank/transfer -H "Content-Type: application/json -d" "{\"fromAccount\":1, \"toAccount\":2, \"amount\":100.0}"
+curl -X PATCH http://localhost:8080/bank/transfer -H "Content-Type: application/json" -d "{\"fromAccount\":1, \"toAccount\":2, \"amount\":100.0}"
 ```
 
 
