@@ -135,4 +135,15 @@ public class BankResourceTest {
      * So my idea is to create a new endpoint that calls getAccount and then extracts
      * the balance from the returned account object, which will be returned.
      */
+
+     @Test
+     public void testGetAccountBalance() {
+        given()
+            .contentType(ContentType.JSON)
+            .body("{ \"accountNumber\": 82 }")
+            .when().get("/bank/82/balance")
+            .then()
+                .statusCode(200)
+                .body("balance", is(2000.0f));
+     }
 }

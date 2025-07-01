@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -68,6 +70,20 @@ public class BankResource {
         } catch (SQLException e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GET
+    @Path("/{accountNumber}/balance")
+    public Response getAccountBalance(@PathParam("accountNumber") int accountNumber) {
+        Object account = getAccount(accountNumber).getEntity();
+        if (account instanceof EntityAccount entityAccount) {
+            Map<String, Object> json = new HashMap<>();
+            json.put("balance", entityAccount.getBalance());
+            return Response.ok(json).build();
+        }
+        else {
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
 
