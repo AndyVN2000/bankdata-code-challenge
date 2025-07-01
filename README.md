@@ -25,6 +25,15 @@ Then to hit the endpoint for transferring money from `foo bar` to `John Doe` wit
 curl -X PATCH http://localhost:8080/bank/transfer -H "Content-Type: application/json" -d "{\"fromAccount\":1, \"toAccount\":2, \"amount\":100.0}"
 ```
 
+To get the balance of a given account (for instance John Doe who has `accountNumber = 2`), you can either get the whole info on the account by entering in bash:
+```bash script
+curl http://localhost:8080/bank/2
+```
+
+Or you can simply get the balance alone by entering in bash:
+```bash script
+curl http://localhost:8080/bank/balance/2
+```
 
 # bankdata-code-challenge
 
