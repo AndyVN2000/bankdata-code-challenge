@@ -1,3 +1,5 @@
+This branch known as `post_handin` is some extra work beyond the initial 4-5 hours I have spent on solving this homework for Bankdata. The additional changes contains finishing touches that I could not make in time within 4 hours.
+
 # To start application and hitting endpoints
 
 To start the application, run in shell:
