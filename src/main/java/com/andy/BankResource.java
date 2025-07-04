@@ -21,9 +21,15 @@ import jakarta.ws.rs.core.Response;
 @Path("/bank")
 public class BankResource {
 
+    private AccountService as;
+
     private static final String JDBC_URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
     private static final String USER = "sa";
     private static final String PASSWORD = "sa";
+
+    public BankResource(AccountService as){
+        as = as;
+    }
 
     /**
      * Based on https://www.javaguides.net/2019/08/java-h2-database-tutorial.html that shows how to insert record.
@@ -33,20 +39,12 @@ public class BankResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createAccount(EntityAccount account) {
-        String insertSQL = "INSERT INTO EntityAccount (accountNumber, balance, firstName, lastName) VALUES (?, ?, ?, ?)";
-        try (Connection connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
-                PreparedStatement statement = connection.prepareStatement(insertSQL)) {
-            statement.setInt(1, account.getAccountNumber());
-            statement.setDouble(2, account.getBalance());
-            statement.setString(3, account.getFirstName());
-            statement.setString(4, account.getLastName());
-            statement.executeUpdate();
-            System.out.println("Account created: " + account.getFirstName() + " " + account.getLastName() + ", Balance: " + account.getBalance());
-            return Response.status(Response.Status.CREATED).entity(account).build();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        try {
+            EntityAccount ea = as.createAccount(account);
         }
+        catch (SQLException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Something went wrong during account creation").build();
+        } 
     }
 
     @GET
@@ -108,7 +106,6 @@ public class BankResource {
             updateStmt.setDouble(1, request.amount());
             updateStmt.setInt(2, request.accountNumber());
             int rowsUpdated = updateStmt.executeUpdate();
-
             if (rowsUpdated > 0) {
                 // Fetch updated account
                 selectStmt.setInt(1, request.accountNumber());

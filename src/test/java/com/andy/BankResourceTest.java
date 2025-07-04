@@ -77,6 +77,16 @@ public class BankResourceTest {
                 .statusCode(200)
                 .body("balance", is(2500.0f));
     }
+
+    @Test
+    public void testDepositToNonExistingAccount() {
+        given()
+            .contentType(ContentType.JSON)
+            .body("{ \"accountNumber\": 3, \"amount\": 500.0 }")
+            .when().patch("/bank/deposit")
+            .then()
+                .statusCode(500);
+    }
     
     /**
      * My initial thoughts before writing test and implementation:
